@@ -26,10 +26,10 @@ class ProductManager {
 
   async addProduct(titulo, descripcion, precio, thumbnail, codigo, stock) {
     try {
-    if(!title || !description || !price || !thumbnail || !code || !stock) {
+    if(!titulo || !descripcion || !precio || !thumbnail || !codigo || !stock) {
       return console.log('Error, producto incompleto');
     } else {
-        const isCode = this.#evaluarCode(code)
+        const isCode = this.#evaluarCode(codigo)
         if(isCode){
           console.log('Este codigo ya existe, intente nuevamente')
         } else {
@@ -60,7 +60,7 @@ class ProductManager {
           console.log(productFound)
           return productFound
         } else {
-          console.log('Product not found')
+          console.log('Producto no encontrado')
         }
       }
     } catch(error) {
