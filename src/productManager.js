@@ -1,7 +1,8 @@
 const fs = require('fs')
 const { title } = require('process')
 
-class ProductManager {
+
+export default class ProductManager {
 
   constructor() {
     this.products = []
