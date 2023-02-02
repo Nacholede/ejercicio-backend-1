@@ -33,3 +33,5 @@ const httpServer = app.listen (8080 , () => {
 })
 
 const socketServer = new Server (httpServer)
+
+export default socketServer;
