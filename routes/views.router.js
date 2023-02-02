@@ -27,8 +27,8 @@ viewsRouter.get('/',async(req,res)=>{
       const product = await req.body
       console.log('producto:',producto)
       await productManager.addProduct(producto)
-      const products = await productManager.getProducts()
-      socketServer.sockets.emit('products', products)
+      const productos = await productManager.getProducts()
+      socketServer.sockets.emit('productos', productos)
     } catch (error) {
       return error
     }
