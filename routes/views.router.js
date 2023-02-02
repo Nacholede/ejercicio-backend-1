@@ -4,17 +4,36 @@ import socketServer from "../src/app"
 
 
 const viewsRouter = Router()
+const productManager = new ProductManager ('./src/productos.json')
 
 
-viewsRouter.get ('/realtimeproducts' , async (req,res) => {
+viewsRouter.get('/',async(req,res)=>{
+    const productos = await productManager.getProducts()
+      res.render('home', {productos})
+  })
+  
+  
+  viewsRouter.get('/realtimeproducts',async (req,res)=>{
+    const productos = await productManager.getProducts()
+    socketServer.on('connection', (socket)=>{
+      socket.emit('productos', productos)
+    })
+      res.render('realTimeProducts', {productos})
+  })
+  
+  
+  viewsRouter.post('/realtimeproducts', async(req, res)=>{
     try {
-        const producManager = new ProductManager ()
-        const productos = await producManager.getProducts()
-        res.render ("home", {productos, titulo: "Productos"})
+      const product = await req.body
+      console.log('producto:',producto)
+      await productManager.addProduct(producto)
+      const products = await productManager.getProducts()
+      socketServer.sockets.emit('products', products)
     } catch (error) {
-        console.log('Error al obtener productos')
+      return error
     }
-
-
-})
+  })
+  
+  
+  export default viewsRouter
 
