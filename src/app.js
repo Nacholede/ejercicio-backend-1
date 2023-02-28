@@ -1,8 +1,8 @@
 import express from 'express'
-import productsRouter from '../routes/products.router.js'
+import productRouter from '../routes/product.router.js'
 import cartRouter from '../routes/cart.router.js'
-import { __dirname } from '../src/utils'
 import handlebars from 'express-handlebars'
+import { __dirname } from '../utils.js'
 import { Server } from 'socket.io'
 
 const app = express()
@@ -12,7 +12,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname+'/public'))
 
 app.use ('/', viewsRouter)
-app.use('/api/products', productsRouter)
+app.use('/api/products', productRouter)
 app.use('/api/cart', cartRouter)
 
 app.engine ('handlebars', handlebars.engine())

@@ -1,5 +1,4 @@
 const fs = require('fs')
-const { title } = require('process')
 
 
 export class ProductManager {
@@ -120,4 +119,3 @@ export class ProductManager {
 }
 
 const product = new ProductManager()
-
