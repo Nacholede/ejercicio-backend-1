@@ -61,6 +61,22 @@ viewsRouter.get('/carts/:cartId', async(req,res) => {
     }
   })
   
+router.get('/registro', (req, res) => {
+    res.render('registro')
+})
+
+router.get('/errorRegistro', (req, res) => {
+    res.render('errorRegistro')
+})
+
+router.get('/login', (req, res) => {
+    res.render('login')
+})
+
+router.get('/errorLogin', (req, res) => {
+    res.render('errorLogin')
+})
+
   
   export default viewsRouter
 
