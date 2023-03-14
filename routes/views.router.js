@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import ProductManager from '../src/productManager'
 import socketServer from "../src/app"
-
+import { auth, isLogged } from '../middlewares/auth.middleware.js'
 
 const viewsRouter = Router()
 const productManager = new ProductManager ('./src/productos.json')
@@ -61,7 +61,7 @@ viewsRouter.get('/carts/:cartId', async(req,res) => {
     }
   })
   
-router.get('/registro', (req, res) => {
+router.get('/registro', isLogged, (req, res) => {
     res.render('registro')
 })
 
@@ -69,7 +69,12 @@ router.get('/errorRegistro', (req, res) => {
     res.render('errorRegistro')
 })
 
-router.get('/login', (req, res) => {
+router.get('/profile',(req,res)=>{
+  res.render('profile',{email:req.session.email})
+})
+
+
+router.get('/login', isLogged, (req, res) => {
     res.render('login')
 })
 

@@ -1,9 +1,13 @@
 import express from 'express'
 import productRouter from '../routes/product.router.js'
 import cartRouter from '../routes/cart.router.js'
+import viewsRouter from './routes/views.router.js'
+import usersRouter from './routes/users.router.js'
 import handlebars from 'express-handlebars'
 import { __dirname } from '../utils.js'
 import { Server } from 'socket.io'
+import passport from 'passport'
+import './passport/passportStrategies.js'
 
 const app = express()
 
@@ -21,6 +25,11 @@ app.use('/users', usersRouter)
 app.engine ('handlebars', handlebars.engine())
 app.set ('view engine', 'handlebars')
 app.set ('views', __dirname + '/views')
+
+//passport 
+app.use(passport.initialize())
+app.use(passport.session())
+
 
 
 app.get ('/' , (req,res) => {
