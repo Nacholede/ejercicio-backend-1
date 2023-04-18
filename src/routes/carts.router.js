@@ -23,7 +23,7 @@ cartRouter.get('/:cartId', async(req,res) => {
 });
 
 cartRouter.post('/', async(req, res) => {
-    const products = await req.body;
+    const products = await req.body
     const quantity = await req.body
     const newCart = await cartManager.addCart(products, quantity);
     if(!newCart){
