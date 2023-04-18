@@ -1,7 +1,7 @@
 import { Router } from "express";
-import UserManager from "../src/dao/mongoManager/usersManager.js";
+import UserManager from "../dao/mongoDB/mongoManager/usersManager.js";
 import passport from "passport";
-import { hashPassword, comparePasswords } from "../src/utils.js";
+import { hashPassword, comparePasswords } from "../utils/utils.js";
 
 
 const router = Router()

@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import ProductManager from '../src/productManager'
-import socketServer from "../src/app"
+import ProductManager from '../productManager'
+import socketServer from "../app"
 import { auth, isLogged } from '../middlewares/auth.middleware.js'
 
 const viewsRouter = Router()

@@ -1,6 +1,6 @@
 import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
-import { usersModel } from '../dao/models/users.model.js';
+import { usersModel } from '../dao/mongoDB/models/users.model.js';
 import { hashPassword } from '../utils.js';
 import {Strategy as DiscordStrategy} from 'passport-discord';
 

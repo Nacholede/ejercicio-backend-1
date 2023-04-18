@@ -8,8 +8,16 @@ import { __dirname } from '../utils.js'
 import { Server } from 'socket.io'
 import passport from 'passport'
 import './passport/passportStrategies.js'
+import  config  from './config.js'
 
 const app = express()
+
+// file session
+import FileStore from 'session-file-store'
+const fileStore = FileStore(session)
+
+// mongo session
+import mongoStore from 'connect-mongo'
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
