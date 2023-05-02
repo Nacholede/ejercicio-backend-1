@@ -13,3 +13,19 @@ export function isLogged(req,res,next){
         next()
     }
 }
+
+export function isAdmin(req,res,next){
+    if(req.session.role === "Admin"){
+        next()
+    } else {
+        res.redirect('/products')
+    }
+}
+
+export function isLogged(req,res,next){
+    if(req.session.role === "User"){
+       next ()
+    } else{
+        res.redirect('/admin')
+    }
+}

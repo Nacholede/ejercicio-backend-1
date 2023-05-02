@@ -1,32 +1,38 @@
 import express from 'express'
-import productRouter from '../routes/product.router.js'
-import cartRouter from '../routes/cart.router.js'
+import handlebars from 'express-handlebars'
+import session from 'express-session'
+import {__dirname} from './utils.js'
+import cookieParser from 'cookie-parser'
+import mongoStore from 'connect-mongo'
+import productsRouter from './routes/products.router.js'
+import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views.router.js'
 import usersRouter from './routes/users.router.js'
-import handlebars from 'express-handlebars'
-import { __dirname } from '../utils.js'
-import { Server } from 'socket.io'
+import sessionsRouter from './routes/sessions.router.js'
 import passport from 'passport'
+import config from './config.js'
 import './passport/passportStrategies.js'
-import  config  from './config.js'
+import cors from 'cors'
+import {errorMiddleware} from './middlewares/errors/errores.js'
+import FileStore from 'session-file-store'
+import mongoStore from 'connect-mongo'
+
 
 const app = express()
 
-// file session
-import FileStore from 'session-file-store'
 const fileStore = FileStore(session)
 
-// mongo session
-import mongoStore from 'connect-mongo'
-
 app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname+'/public'))
+app.use(cookieParser())
+app.use(cors({origin:'http://127.0.0.1:5500', methods:['GET', 'POST', 'PUT', 'DELETE']}))
 
 //routes 
-app.use ('/', viewsRouter)
-app.use('/api/products', productRouter)
-app.use('/api/cart', cartRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/carts', cartsRouter)
+app.use('/api/sessions', sessionsRouter)
+app.use('/', viewsRouter)
 app.use('/users', usersRouter)
 
 //handlebar
@@ -38,6 +44,8 @@ app.set ('views', __dirname + '/views')
 app.use(passport.initialize())
 app.use(passport.session())
 
+//middleware
+app.use(errorMiddleware)
 
 
 app.get ('/' , (req,res) => {

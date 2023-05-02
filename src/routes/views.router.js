@@ -1,66 +1,27 @@
-import { Router } from 'express'
-import ProductManager from '../productManager'
-import socketServer from "../app"
-import { auth, isLogged } from '../middlewares/auth.middleware.js'
+import { Router } from "express"
+import { getAllProducts } from "../controllers/products.controller.js"
+import { getACartById } from "../controllers/cart.controller.js"
+import { viewsUsers, createOneUser, logOut } from "../controllers/users.controller.js"
+import {auth, isLogged} from "../middlewares/auth.middlewares.js"
+import passport from 'passport'
 
-const viewsRouter = Router()
-const productManager = new ProductManager ('./src/productos.json')
 
+const router = Router()
 
-viewsRouter.get('/',async(req,res)=>{
-    const productos = await productManager.getProducts()
-      res.render('home', {productos})
-  })
-  
-  
-  viewsRouter.get('/realtimeproducts',async (req,res)=>{
-    const productos = await productManager.getProducts()
-    socketServer.on('connection', (socket)=>{
-      socket.emit('productos', productos)
-    })
-      res.render('realTimeProducts', {productos})
-  })
-  
-  viewsRouter.get('/products',async(req,res)=>{
-    try {
-        
-        const {limit=10, page=1, category} = req.query 
-        let products 
-        if(!category){
-          products = await productsModel.find().limit(limit).skip(page-1).lean()
-        }else{
-          products = await productsModel.find({category}).limit(limit).skip(page-1).lean()
-        }
-        console.log(products)
-          res.render('products', {products})
-    } catch (error) {
-        console.log(error)
-    }
+router.get('/', async(req, res) => {
+    res.render('index', index)
 })
 
-viewsRouter.get('/carts/:cartId', async(req,res) => {
-  const {cartId} = req.params
-  const cart = await cartsModel.find({_id:cartId}).lean()
-  if(!cart){
-      res.json({message: 'Carrito no encontrado'})
-  }else{
-      res.render('cart', {cart});
-  }
-});
-  
-  
-  viewsRouter.post('/realtimeproducts', async(req, res)=>{
-    try {
-      const product = await req.body
-      console.log('producto:',producto)
-      await productManager.addProduct(producto)
-      const productos = await productManager.getProducts()
-      socketServer.sockets.emit('productos', productos)
-    } catch (error) {
-      return error
-    }
-  })
-  
+router.post('/login', viewsUsers)
+
+router.post('/registro', createOneUser)
+
+router.get('/logout', logOut)
+
+router.get('/products', auth, getAllProducts)
+
+router.get('/carts/:cid', getACartById)
+
 router.get('/registro', isLogged, (req, res) => {
     res.render('registro')
 })
@@ -69,11 +30,6 @@ router.get('/errorRegistro', (req, res) => {
     res.render('errorRegistro')
 })
 
-router.get('/profile',(req,res)=>{
-  res.render('profile',{email:req.session.email})
-})
-
-
 router.get('/login', isLogged, (req, res) => {
     res.render('login')
 })
@@ -81,7 +37,15 @@ router.get('/login', isLogged, (req, res) => {
 router.get('/errorLogin', (req, res) => {
     res.render('errorLogin')
 })
-
   
+
+//Registro y login con Discord 
+app.get('/auth/discord', passport.authenticate('discord'));
+app.get('/auth/discord/callback', passport.authenticate('discord', {
+    failureRedirect: '/views/errorRegistro'
+}), function(req, res) {
+    req.session.email = req.user.email
+    res.redirect('/views/perfil') 
+});
   export default viewsRouter
 
