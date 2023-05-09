@@ -3,7 +3,6 @@ import handlebars from 'express-handlebars'
 import session from 'express-session'
 import {__dirname} from './utils.js'
 import cookieParser from 'cookie-parser'
-import mongoStore from 'connect-mongo'
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views.router.js'
@@ -16,6 +15,7 @@ import cors from 'cors'
 import {errorMiddleware} from './middlewares/errors/errores.js'
 import FileStore from 'session-file-store'
 import mongoStore from 'connect-mongo'
+import mockingRouter from './routes/mocking.router.js'
 
 
 const app = express()
@@ -34,6 +34,7 @@ app.use('/api/carts', cartsRouter)
 app.use('/api/sessions', sessionsRouter)
 app.use('/', viewsRouter)
 app.use('/users', usersRouter)
+app.use('/api/mockingproducts', mockingRouter)
 
 //handlebar
 app.engine ('handlebars', handlebars.engine())
