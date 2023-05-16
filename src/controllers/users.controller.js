@@ -3,7 +3,7 @@ import { compareHashedData } from '../utils/bcrypt.utils.js'
 import CustomError from '../services/errors/CustomError.js'
 import { ErrorsName, ErrorsMessage} from '../services/errors/enum.js'
 import { generateUserErrorInfo } from '../services/errors/cause.js'
-
+import { Logger } from 'logger'
 
 
 export async function findAllUsers(req, res) {
@@ -117,6 +117,16 @@ export async function createOneUser(req, res) {
     } catch (error) {
         res.status(500).json({ error })
     }
+}
+
+export async function logOut(req, res) {
+    req.session.destroy((error) => {
+        if (error) {
+            console.log(error)
+        } else {
+            res.redirect('/login')
+        }
+    })
 }
 
 export async function logOut(req, res) {

@@ -1,5 +1,6 @@
 import { findAll, createOne } from "../services/users.services.js";
 
+
 export async function findAllUsers(req,res) {
     try {
         const users = await findAll()
@@ -26,6 +27,7 @@ export async function createOneUser(req, res) {
       res.status(500).json({ error })
     }
   }
+
 
 
   

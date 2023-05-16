@@ -35,6 +35,7 @@ app.use('/api/sessions', sessionsRouter)
 app.use('/', viewsRouter)
 app.use('/users', usersRouter)
 app.use('/api/mockingproducts', mockingRouter)
+app.use('/logger', logger)
 
 //handlebar
 app.engine ('handlebars', handlebars.engine())
