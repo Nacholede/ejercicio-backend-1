@@ -11,7 +11,7 @@ export async function getAllProducts(req, res) {
         res.render('products', {
             email: req.session.email,
             products,
-            style: 'style.css'
+            
         })
     } catch (error) {
         return error

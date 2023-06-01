@@ -16,6 +16,8 @@ import {errorMiddleware} from './middlewares/errors/errores.js'
 import FileStore from 'session-file-store'
 import mongoStore from 'connect-mongo'
 import mockingRouter from './routes/mocking.router.js'
+import swaggerUi from 'swagger-ui-express'
+import { swaggerSetup } from './swaggerSpecs.js'
 
 
 const app = express()
@@ -36,6 +38,7 @@ app.use('/', viewsRouter)
 app.use('/users', usersRouter)
 app.use('/api/mockingproducts', mockingRouter)
 app.use('/logger', logger)
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSetup))
 
 //handlebar
 app.engine ('handlebars', handlebars.engine())
